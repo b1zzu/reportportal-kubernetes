@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq
+  namespace: reportportal
+  labels:
+    app.kubernetes.io/name: rabbitmq
+spec:
+  replicas: 1
+  serviceName: rabbitmq
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rabbitmq
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: docker.io/bitnami/rabbitmq:3.11.6
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: RABBITMQ_USERNAME
+                  name: rabbitmq
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: RABBITMQ_PASSWORD
+                  name: rabbitmq
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - rabbitmq-diagnostics -q ping
+            failureThreshold: 6
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 20
+          ports:
+            - containerPort: 5672
+              name: amqp
+            - containerPort: 25672
+              name: dist
+            - containerPort: 15672
+              name: stats
+            - containerPort: 4369
+              name: epmd
+          readinessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - rabbitmq-diagnostics -q check_running && rabbitmq-diagnostics -q check_local_alarms
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 20
+          resources:
+            limits: { }
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          volumeMounts:
+            - mountPath: /bitnami/rabbitmq/mnesia
+              name: data
+      securityContext:
+        fsGroup: 1001
+      volumes:
+        - emptyDir: { }
+          name: data
+  updateStrategy:
+    type: RollingUpdate

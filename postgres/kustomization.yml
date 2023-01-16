@@ -1,0 +1,14 @@
+resources:
+  - ./postgres-service.yml
+  - ./postgres-stateful-set.yml
+
+secretGenerator:
+  - name: postgres
+    namespace: reportportal
+    literals:
+      - POSTGRES_POSTGRES_PASSWORD=postgres_password
+  - name: postgres-user
+    namespace: reportportal
+    literals:
+      - POSTGRES_USER=reportportal
+      - POSTGRES_PASSWORD=reportportal_password

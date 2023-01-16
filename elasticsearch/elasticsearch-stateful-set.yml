@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: elasticsearch
+  name: elasticsearch
+  namespace: reportportal
+spec:
+  replicas: 1
+  serviceName: elasticsearch
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: elasticsearch
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: elasticsearch
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.io/bitnami/elasticsearch:8.6.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ELASTICSEARCH_HEAP_SIZE
+              value: 128m
+          livenessProbe:
+            exec:
+              command:
+                - /opt/bitnami/scripts/elasticsearch/healthcheck.sh
+            failureThreshold: 5
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          ports:
+            - containerPort: 9200
+              name: rest-api
+            - containerPort: 9300
+              name: transport
+          readinessProbe:
+            exec:
+              command:
+                - /opt/bitnami/scripts/elasticsearch/healthcheck.sh
+            failureThreshold: 5
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            limits: { }
+            requests:
+              cpu: 25m
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          volumeMounts:
+            - mountPath: /bitnami/elasticsearch/data
+              name: data
+      initContainers:
+        - command:
+            - /bin/bash
+            - -ec
+            - |
+              CURRENT=`sysctl -n vm.max_map_count`;
+              DESIRED="262144";
+              if [ "$DESIRED" -gt "$CURRENT" ]; then
+                  sysctl -w vm.max_map_count=262144;
+              fi;
+              CURRENT=`sysctl -n fs.file-max`;
+              DESIRED="65536";
+              if [ "$DESIRED" -gt "$CURRENT" ]; then
+                  sysctl -w fs.file-max=65536;
+              fi;
+          image: docker.io/bitnami/bitnami-shell:11-debian-11-r70
+          imagePullPolicy: IfNotPresent
+          name: sysctl
+          resources:
+            limits: { }
+            requests: { }
+          securityContext:
+            privileged: true
+            runAsUser: 0
+      securityContext:
+        fsGroup: 1001
+      serviceAccountName: default
+      volumes: null
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

@@ -1,0 +1,8 @@
+namespace: reportportal
+
+resources:
+  - ./namespace.yml
+  - ./elasticsearch
+  - ./minio
+  - ./postgres
+  - ./rabbitmq

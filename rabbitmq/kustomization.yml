@@ -1,0 +1,10 @@
+resources:
+  - ./rabbitmq-service.yml
+  - ./rabbitmq-stateful-set.yml
+
+secretGenerator:
+  - name: rabbitmq
+    namespace: reportportal
+    literals:
+      - RABBITMQ_USERNAME=reportportal
+      - RABBITMQ_PASSWORD=reportportal_password

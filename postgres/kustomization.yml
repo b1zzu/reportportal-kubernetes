@@ -18,3 +18,8 @@ configMapGenerator:
     namespace: reportportal
     files:
       - ./reportportal-initdb.sh
+
+images:
+  - name: postgresql
+    newName: docker.io/bitnami/postgresql
+    newTag: 12.13.0

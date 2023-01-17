@@ -8,3 +8,8 @@ secretGenerator:
     literals:
       - MINIO_ROOT_USER=minio
       - MINIO_ROOT_PASSWORD=minio_password
+
+images:
+  - name: minio
+    newName: docker.io/bitnami/minio
+    newTag: 2022.12.12

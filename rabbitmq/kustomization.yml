@@ -8,3 +8,8 @@ secretGenerator:
     literals:
       - RABBITMQ_USERNAME=reportportal
       - RABBITMQ_PASSWORD=reportportal_password
+
+images:
+  - name: rabbitmq
+    newName: docker.io/bitnami/rabbitmq
+    newTag: 3.11.6

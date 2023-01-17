@@ -17,7 +17,7 @@ spec:
         app.kubernetes.io/name: minio
     spec:
       containers:
-        - image: docker.io/bitnami/minio:2022.12.12
+        - image: minio
           name: minio
           imagePullPolicy: IfNotPresent
           env:

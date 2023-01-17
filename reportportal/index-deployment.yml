@@ -22,7 +22,7 @@ spec:
         - env:
             - name: K8S_MODE
               value: "true"
-          image: reportportal/service-index:5.7.3
+          image: service-index
           name: index
           ports:
             - containerPort: 8080

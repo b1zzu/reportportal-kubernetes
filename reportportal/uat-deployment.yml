@@ -53,7 +53,7 @@ spec:
                   key: MINIO_ROOT_PASSWORD
                   name: minio
           name: uat
-          image: reportportal/service-authorization:5.7.3
+          image: service-authorization
           ports:
             - containerPort: 9999
               protocol: TCP

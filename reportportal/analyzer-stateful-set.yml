@@ -53,7 +53,7 @@ spec:
               value: analyzer
             - name: ES_HOSTS
               value: http://elasticsearch:9200
-          image: reportportal/service-auto-analyzer:5.7.3
+          image: service-auto-analyzer
           name: analyzer
           ports:
             - containerPort: 8080

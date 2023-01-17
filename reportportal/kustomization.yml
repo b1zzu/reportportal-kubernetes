@@ -15,3 +15,26 @@ resources:
   - ./ui-deployment.yml
   - ./ui-service.yml
   - ./gateway-ingress.yml
+
+images:
+  - name: service-auto-analyzer
+    newName: reportportal/service-auto-analyzer
+    newTag: 5.7.3
+  - name: service-api
+    newName: reportportal/service-api
+    newTag: 5.7.3
+  - name: service-index
+    newName: reportportal/service-index
+    newTag: 5.7.3
+  - name: service-jobs
+    newName: reportportal/service-jobs
+    newTag: 5.7.3
+  - name: migrations
+    newName: reportportal/migrations
+    newTag: 5.7.3
+  - name: service-authorization
+    newName: reportportal/service-authorization
+    newTag: 5.7.3
+  - name: service-ui
+    newName: reportportal/service-ui
+    newTag: 5.7.3

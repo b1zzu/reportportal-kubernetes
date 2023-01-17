@@ -104,7 +104,7 @@ spec:
               value: ""
             - name: RP_ELASTICSEARCH_PASSWORD
               value: ""
-          image: reportportal/service-jobs:5.7.3
+          image: service-jobs
           name: jobs
           ports:
             - containerPort: 8686

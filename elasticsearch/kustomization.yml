@@ -1,3 +1,8 @@
 resources:
   - ./elasticsearch-service.yml
   - ./elasticsearch-stateful-set.yml
+
+images:
+  - name: elasticsearch
+    newName: docker.io/bitnami/elasticsearch
+    newTag: 8.6.0

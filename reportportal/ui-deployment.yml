@@ -22,7 +22,7 @@ spec:
         - env:
             - name: RP_SERVER_PORT
               value: "8080"
-          image: reportportal/service-ui:5.7.3
+          image: service-ui
           name: ui
           ports:
             - containerPort: 8080

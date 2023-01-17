@@ -51,23 +51,29 @@ spec:
                 secretKeyRef:
                   key: MINIO_ROOT_PASSWORD
                   name: minio
+            - name: JAVA_OPTS
+              value: >
+                -XX:MinRAMPercentage=60.0
+                -XX:MaxRAMPercentage=90.0
           name: uat
           image: service-authorization
           ports:
             - containerPort: 9999
               protocol: TCP
           resources:
-            limits: { }
+            limits:
+              cpu: 400m
+              memory: 512Mi
             requests:
-              cpu: 25m
-              memory: 64Mi
+              cpu: 100m
+              memory: 256Mi
           readinessProbe:
             failureThreshold: 10
             httpGet:
               path: /health
               port: 9999
-            initialDelaySeconds: 60
-            periodSeconds: 40
+            initialDelaySeconds: 120
+            periodSeconds: 60
             timeoutSeconds: 5
           livenessProbe:
             failureThreshold: 10

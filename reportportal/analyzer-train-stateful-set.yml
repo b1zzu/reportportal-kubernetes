@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: reportportal
     app.kubernetes.io/component: analyzer-train
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: reportportal
@@ -20,26 +20,8 @@ spec:
     spec:
       containers:
         - env:
-            - name: LOGGING_LEVEL
-              value: info
             - name: INSTANCE_TASK_TYPE
               value: train
-            - name: UWSGI_WORKERS
-              value: "1"
-            - name: ANALYZER_BINARYSTORE_TYPE
-              value: minio
-            - name: MINIO_SHORT_HOST
-              value: minio:9000
-            - name: MINIO_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: MINIO_ROOT_USER
-                  name: minio
-            - name: MINIO_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: MINIO_ROOT_PASSWORD
-                  name: minio
             - name: RP_AMQP_USR
               valueFrom:
                 secretKeyRef:
@@ -51,13 +33,15 @@ spec:
                   key: RABBITMQ_PASSWORD
                   name: rabbitmq
             - name: AMQP_URL
-              value: http://$(RP_AMQP_USR):$(RP_AMQP_PASS)@rabbitmq:5672
+              value: amqp://$(RP_AMQP_USR):$(RP_AMQP_PASS)@rabbitmq:5672
             - name: AMQP_EXCHANGE_NAME
               value: analyzer-default
             - name: AMQP_VIRTUAL_HOST
               value: analyzer
             - name: ES_HOSTS
               value: http://elasticsearch:9200
+            - name: ES_PROJECT_INDEX_PREFIX
+              value: reportportal
           image: service-auto-analyzer
           name: analyzer
           ports:

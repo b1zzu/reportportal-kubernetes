@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/name: elasticsearch
   name: elasticsearch
 spec:
-  replicas: 1
+  replicas: 0
   serviceName: elasticsearch
   selector:
     matchLabels:

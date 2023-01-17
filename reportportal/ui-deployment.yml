@@ -32,7 +32,9 @@ spec:
             - mountPath: /var/run
               name: run
           resources:
-            limits: { }
+            limits:
+              cpu: 25m
+              memory: 64Mi
             requests:
               cpu: 25m
               memory: 64Mi

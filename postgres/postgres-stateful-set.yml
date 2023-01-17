@@ -68,10 +68,12 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5
           resources:
-            limits: { }
+            limits:
+              cpu: 100m
+              memory: 256Mi
             requests:
-              cpu: 25m
-              memory: 64Mi
+              cpu: 50m
+              memory: 128Mi
           securityContext:
             runAsUser: 1001
           volumeMounts:

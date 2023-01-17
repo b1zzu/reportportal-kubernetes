@@ -19,8 +19,6 @@ spec:
     spec:
       containers:
         - env:
-            - name: LOGGING_LEVEL_ORG_HIBERNATE_SQL
-              value: "info"
             - name: RP_REQUESTLOGGING
               value: "false"
             - name: RP_AMQP_QUEUES
@@ -43,8 +41,6 @@ spec:
                 secretKeyRef:
                   key: RABBITMQ_PASSWORD
                   name: rabbitmq
-            - name: RP_AMQP_APIHOST
-              value: rabbitmq
             - name: RP_AMQP_APIPORT
               value: "15672"
             - name: RP_AMQP_APIUSER
@@ -87,18 +83,22 @@ spec:
                 secretKeyRef:
                   key: MINIO_ROOT_PASSWORD
                   name: minio
-            - name: MANAGEMENT_HEALTH_ELASTICSEARCH_ENABLED
-              value: "false"
+            - name: JAVA_OPTS
+              value: >
+                -XX:MinRAMPercentage=60.0 
+                -XX:MaxRAMPercentage=90.0
           image: service-api
           name: api
           ports:
             - containerPort: 8585
               protocol: TCP
           resources:
-            limits: { }
+            limits:
+              cpu: 500m
+              memory: 1024Mi
             requests:
-              cpu: 25m
-              memory: 64Mi
+              cpu: 100m
+              memory: 512Mi
           readinessProbe:
             httpGet:
               path: /health

@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/component: gateway-ingress
 spec:
   rules:
-    - host: reportportal.test
+    - host: reportportal.minikube.local
       http:
         paths:
           - backend:

@@ -2,7 +2,8 @@
 
 This project is inspired by https://github.com/reportportal/kubernetes but uses kustomize instead of helm.
 
-https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/
+> Attention: The analyzer service is disabled, to enable it you have to set the elasticsearch, analyzer and
+> analyzer-train replicas to 1. But ReportPortal works also without the analyzer.
 
 ## Deployment
 

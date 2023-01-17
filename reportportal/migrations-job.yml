@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: reportportal-migrations
-  namespace: reportportal
   labels:
     app.kubernetes.io/name: reportportal
     app.kubernetes.io/component: migrations

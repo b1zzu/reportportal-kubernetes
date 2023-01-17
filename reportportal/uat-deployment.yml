@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reportportal-uat
-  namespace: reportportal
   labels:
     app.kubernetes.io/name: reportportal
     app.kubernetes.io/component: uat

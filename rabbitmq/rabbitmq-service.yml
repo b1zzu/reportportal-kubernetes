@@ -4,7 +4,6 @@ metadata:
   labels:
     app.kubernetes.io/name: rabbitmq
   name: rabbitmq
-  namespace: reportportal
 spec:
   selector:
     app.kubernetes.io/name: rabbitmq

@@ -4,7 +4,6 @@ metadata:
   labels:
     app.kubernetes.io/name: elasticsearch
   name: elasticsearch
-  namespace: reportportal
 spec:
   replicas: 1
   serviceName: elasticsearch

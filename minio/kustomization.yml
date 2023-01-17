@@ -4,7 +4,6 @@ resources:
 
 secretGenerator:
   - name: minio
-    namespace: reportportal
     literals:
       - MINIO_ROOT_USER=minio
       - MINIO_ROOT_PASSWORD=minio_password

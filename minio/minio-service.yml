@@ -4,7 +4,6 @@ metadata:
   labels:
     app.kubernetes.io/name: minio
   name: minio
-  namespace: reportportal
 spec:
   ports:
     - name: minio-api

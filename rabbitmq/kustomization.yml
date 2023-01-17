@@ -4,7 +4,6 @@ resources:
 
 secretGenerator:
   - name: rabbitmq
-    namespace: reportportal
     literals:
       - RABBITMQ_USERNAME=reportportal
       - RABBITMQ_PASSWORD=reportportal_password

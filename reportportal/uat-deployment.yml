@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reportportal-uat
+  namespace: reportportal
+  labels:
+    app.kubernetes.io/name: reportportal
+    app.kubernetes.io/component: uat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: reportportal
+      app.kubernetes.io/component: uat
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: reportportal
+        app.kubernetes.io/component: uat
+    spec:
+      containers:
+        - env:
+            - name: RP_SESSION_LIVE
+              value: "86400"
+            - name: RP_DB_HOST
+              value: postgres
+            - name: RP_DB_PORT
+              value: "5432"
+            - name: RP_DB_NAME
+              value: reportportal
+            - name: RP_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USER
+                  name: postgres-user
+            - name: RP_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: postgres-user
+            - name: RP_BINARYSTORE_TYPE
+              value: minio
+            - name: RP_BINARYSTORE_MINIO_ENDPOINT
+              value: http://minio:9000
+            - name: RP_BINARYSTORE_MINIO_ACCESSKEY
+              valueFrom:
+                secretKeyRef:
+                  key: MINIO_ROOT_USER
+                  name: minio
+            - name: RP_BINARYSTORE_MINIO_SECRETKEY
+              valueFrom:
+                secretKeyRef:
+                  key: MINIO_ROOT_PASSWORD
+                  name: minio
+          name: uat
+          image: reportportal/service-authorization:5.7.3
+          ports:
+            - containerPort: 9999
+              protocol: TCP
+          resources:
+            limits: { }
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /health
+              port: 9999
+            initialDelaySeconds: 60
+            periodSeconds: 40
+            timeoutSeconds: 5
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /health
+              port: 9999
+            initialDelaySeconds: 60
+            periodSeconds: 40
+            timeoutSeconds: 5
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001

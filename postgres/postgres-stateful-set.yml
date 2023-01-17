@@ -80,6 +80,9 @@ spec:
               name: dshm
             - mountPath: /bitnami/postgresql
               name: data
+            - name: initdb
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
       securityContext:
         fsGroup: 1001
       serviceAccountName: default
@@ -87,6 +90,12 @@ spec:
         - emptyDir:
             medium: Memory
           name: dshm
+        - name: initdb
+          configMap:
+            name: postgres-initdb
+            items:
+              - key: reportportal-initdb.sh
+                path: initdb.sh
   updateStrategy:
     type: RollingUpdate
   volumeClaimTemplates:

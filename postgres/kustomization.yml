@@ -12,3 +12,9 @@ secretGenerator:
     literals:
       - POSTGRES_USER=reportportal
       - POSTGRES_PASSWORD=reportportal_password
+
+configMapGenerator:
+  - name: postgres-initdb
+    namespace: reportportal
+    files:
+      - ./reportportal-initdb.sh

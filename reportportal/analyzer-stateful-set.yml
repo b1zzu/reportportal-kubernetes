@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: reportportal-analyzer
+  namespace: reportportal
+  labels:
+    app.kubernetes.io/name: reportportal
+    app.kubernetes.io/component: analyzer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: reportportal
+      app.kubernetes.io/component: analyzer
+  serviceName: reportportal-analyzer
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: reportportal
+        app.kubernetes.io/component: analyzer
+    spec:
+      containers:
+        - env:
+            - name: LOGGING_LEVEL
+              value: info
+            - name: MINIO_SHORT_HOST
+              value: minio:9000
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: MINIO_ROOT_USER
+                  name: minio
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: MINIO_ROOT_PASSWORD
+                  name: minio
+            - name: RP_AMQP_USR
+              valueFrom:
+                secretKeyRef:
+                  key: RABBITMQ_USERNAME
+                  name: rabbitmq
+            - name: RP_AMQP_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: RABBITMQ_PASSWORD
+                  name: rabbitmq
+            - name: AMQP_URL
+              value: http://$(RP_AMQP_USR):$(RP_AMQP_PASS)@rabbitmq:5672
+            - name: AMQP_EXCHANGE_NAME
+              value: analyzer-default
+            - name: AMQP_VIRTUAL_HOST
+              value: analyzer
+            - name: ES_HOSTS
+              value: http://elasticsearch:9200
+          image: reportportal/service-auto-analyzer:5.7.3
+          name: analyzer
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            limits: { }
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001

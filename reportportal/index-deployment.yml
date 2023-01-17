@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reportportal-index
+  namespace: reportportal
+  labels:
+    app.kubernetes.io/name: reportportal
+    app.kubernetes.io/component: index
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: reportportal
+      app.kubernetes.io/component: index
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: reportportal
+        app.kubernetes.io/component: index
+    spec:
+      containers:
+        - env:
+            - name: K8S_MODE
+              value: "true"
+          image: reportportal/service-index:5.7.3
+          name: index
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 3
+          resources:
+            limits: { }
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001

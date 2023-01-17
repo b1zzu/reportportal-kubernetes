@@ -6,3 +6,4 @@ resources:
   - ./minio
   - ./postgres
   - ./rabbitmq
+  - ./reportportal

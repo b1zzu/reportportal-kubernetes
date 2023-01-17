@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: reportportal-gateway-ingress
+  namespace: reportportal
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: /$1
+  labels:
+    app.kubernetes.io/name: reportportal
+    app.kubernetes.io/component: gateway-ingress
+spec:
+  rules:
+    - host: reportportal.test
+      http:
+        paths:
+          - backend:
+              service:
+                name: reportportal-index
+                port:
+                  name: headless
+            path: /()?(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: reportportal-ui
+                port:
+                  name: headless
+            path: /(ui)/?(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: reportportal-uat
+                port:
+                  name: headless
+            path: /(uat)/?(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: reportportal-api
+                port:
+                  name: headless
+            path: /(api)/?(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: reportportal-jobs
+                port:
+                  name: headless
+            path: /(jobs)/?(.*)
+            pathType: Prefix

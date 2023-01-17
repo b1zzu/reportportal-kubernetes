@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reportportal-analyzer-train
+  namespace: reportportal
+  labels:
+    app.kubernetes.io/name: reportportal
+    app.kubernetes.io/component: analyzer-train
+spec:
+  ports:
+    - name: headless
+      port: 5000
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    app.kubernetes.io/name: reportportal
+    app.kubernetes.io/component: analyzer-train

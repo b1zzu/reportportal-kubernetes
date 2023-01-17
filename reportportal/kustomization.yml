@@ -1,0 +1,17 @@
+resources:
+  - ./analyzer-service.yml
+  - ./analyzer-stateful-set.yml
+  - ./analyzer-train-service.yml
+  - ./analyzer-train-stateful-set.yml
+  - ./api-deployment.yml
+  - ./api-service.yml
+  - ./index-deployment.yml
+  - ./index-service.yml
+  - ./jobs-deployment.yml
+  - ./jobs-services.yml
+  - ./migrations-job.yml
+  - ./uat-deployment.yml
+  - ./uat-service.yml
+  - ./ui-deployment.yml
+  - ./ui-service.yml
+  - ./gateway-ingress.yml

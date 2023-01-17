@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: reportportal-migrations
+  namespace: reportportal
+  labels:
+    app.kubernetes.io/name: reportportal
+    app.kubernetes.io/component: migrations
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: reportportal
+        app.kubernetes.io/component: migrations
+    spec:
+      restartPolicy: Never
+      containers:
+        - env:
+            - name: POSTGRES_SSLMODE
+              value: disable
+            - name: POSTGRES_SERVER
+              value: postgres
+            - name: POSTGRES_DB
+              value: reportportal
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USER
+                  name: postgres-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: postgres-user
+          image: reportportal/migrations:5.7.3
+          name: migrations
+          resources:
+            limits: { }
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001

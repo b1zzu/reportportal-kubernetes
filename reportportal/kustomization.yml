@@ -37,4 +37,4 @@ images:
     newTag: 5.7.3
   - name: service-ui
     newName: reportportal/service-ui
-    newTag: 5.7.3
+    newTag: 5.8.0

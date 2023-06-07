@@ -11,4 +11,4 @@ secretGenerator:
 images:
   - name: rabbitmq
     newName: docker.io/bitnami/rabbitmq
-    newTag: 3.11.18
+    newTag: 3.12.0

@@ -5,4 +5,4 @@ resources:
 images:
   - name: elasticsearch
     newName: docker.io/bitnami/elasticsearch
-    newTag: 8.8.0
+    newTag: 8.8.1

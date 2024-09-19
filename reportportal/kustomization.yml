@@ -31,7 +31,7 @@ images:
     newTag: 5.8.0
   - name: migrations
     newName: reportportal/migrations
-    newTag: 5.8.0
+    newTag: 5.12.1
   - name: service-authorization
     newName: reportportal/service-authorization
     newTag: 5.8.0

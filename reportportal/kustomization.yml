@@ -28,7 +28,7 @@ images:
     newTag: 5.8.0
   - name: service-jobs
     newName: reportportal/service-jobs
-    newTag: 5.8.0
+    newTag: 5.12.0
   - name: migrations
     newName: reportportal/migrations
     newTag: 5.8.0

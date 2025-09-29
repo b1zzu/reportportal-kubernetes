@@ -11,4 +11,4 @@ secretGenerator:
 images:
   - name: minio
     newName: docker.io/bitnami/minio
-    newTag: 2023.7.7
+    newTag: 2023.12.23
